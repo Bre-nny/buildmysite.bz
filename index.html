@@ -6,20 +6,6 @@
 <title>BuildMySite Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<!--
-IMPORTANT PLATFORM NOTES
-This version prepares your platform for real SaaS features.
-To make them fully functional you will later connect:
-
-• Database → Firebase / Supabase / MongoDB
-• Hosting system → Netlify API / Vercel API
-• Payments → Stripe
-• Authentication → Firebase Auth
-• Subdomains → yourdomain.com + DNS wildcard
-
-The UI and logic hooks are already prepared below.
--->
-
 <style>
 *{box-sizing:border-box}
 body{font-family:Poppins,Arial,sans-serif;margin:0;background:#0f172a;color:white}
@@ -75,7 +61,6 @@ to{opacity:1;transform:translateY(0)}
 @media(max-width:900px){
 .editor-grid{grid-template-columns:1fr}
 .dashboard-grid{grid-template-columns:1fr}
-
 }
 
 .logo{
@@ -85,24 +70,23 @@ margin-right:8px;
 vertical-align:middle;
 border-radius: 12px
 }
-
 </style>
 </head>
 <body>
 
-<!-- Image implementation inserted on line 84 -->
 <header>
-	<h2 href="index.html"><img src="BMSBZ4K.png" alt="BuildMySiteBZ Logo" class="logo"  width="105" height="50"></a>
-		BuildMySiteBZ
-	</h2>
+  <h2>
+    <img src="logo for bus.png" alt="BuildMySiteBZ Logo" class="logo" width="105" height="50">
+    BuildMySiteBZ
+  </h2>
 
-<nav>
-<a href="#builder">Builder</a>
-<a href="#dashboard">Dashboard</a>
-<a href="#admin">Admin</a>
-<a href="#pricing">Pricing</a>
-<a href="#contact">Contact</a>
-</nav>
+  <nav>
+    <a href="#builder">Builder</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#admin">Admin</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </nav>
 </header>
 
 <section class="hero">
@@ -290,7 +274,6 @@ let publishCount=0;
 let visitCount=0;
 let earnings=0;
 
-/* 300 templates */
 for(let i=1;i<=300;i++){
 let div=document.createElement("div");
 div.className="template";
