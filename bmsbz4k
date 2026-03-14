@@ -1,1 +1,10 @@
-![BuildMySiteBZ Logo](images/bmsbz4k.png)
+# BuildMySite
+
+<a href="index.html" style="display: flex; align-items: center; gap: 10px;">
+  <img src="BMSBZ4K.png" alt="BuildMySiteBZ Logo" style="width: 150px; height: auto; border-radius: 15px;">
+  <span style="font-size: 2em; font-weight: bold;">BuildMySite</span>
+</a>
+
+---
+
+Welcome to **BuildMySite**! This is your project header with a clean, rounded logo next to the site title.
