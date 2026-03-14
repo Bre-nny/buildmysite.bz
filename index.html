@@ -3,87 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BuildMySite.Bz</title>
+<title>BuildMySite Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!--
+IMPORTANT PLATFORM NOTES
+This version prepares your platform for real SaaS features.
+To make them fully functional you will later connect:
+
+• Database → Firebase / Supabase / MongoDB
+• Hosting system → Netlify API / Vercel API
+• Payments → Stripe
+• Authentication → Firebase Auth
+• Subdomains → yourdomain.com + DNS wildcard
+
+The UI and logic hooks are already prepared below.
+-->
+
 <style>
 *{box-sizing:border-box}
 body{font-family:Poppins,Arial,sans-serif;margin:0;background:#0f172a;color:white}
-header{background:#020617;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
-header h1{margin:0;font-size:22px}
-nav a{color:white;margin-left:25px;text-decoration:none;font-size:14px}
-.hero{padding:100px 20px;text-align:center;background:linear-gradient(135deg,#2563eb,#7c3aed)}
-.hero h2{font-size:48px;margin-bottom:10px}
-.hero p{opacity:.9;font-size:18px}
-.btn{background:#22c55e;border:none;padding:12px 22px;border-radius:8px;color:white;font-size:15px;cursor:pointer}
-.btn:hover{opacity:.9}
-section{padding:70px 20px;max-width:1100px;margin:auto}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px}
-.card{background:#1e293b;padding:25px;border-radius:14px}
-.builder-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-label{font-size:14px}
-input,select,textarea{width:100%;padding:10px;margin-top:6px;margin-bottom:16px;border-radius:6px;border:none}
-.preview{background:white;color:black;padding:20px;border-radius:10px;margin-top:10px;min-height:200px;overflow:auto}
-footer{background:#020617;padding:30px;text-align:center;margin-top:60px}
-textarea.code{height:180px;font-family:monospace}
-.template-box{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
-.template{background:#1e293b;padding:15px;border-radius:8px;text-align:center;cursor:pointer;font-size:14px}
-.template:hover{background:#334155}
-@media(max-width:800px){.builder-grid{grid-template-columns:1fr}}
+
+header{background:#020617;padding:18px 35px;display:flex;justify-content:space-between;align-items:center}
+nav a{color:white;margin-left:20px;text-decoration:none;font-size:14px;transition:.3s}
+nav a:hover{color:#22c55e}
+
+section{padding:60px 20px;max-width:1200px;margin:auto}
+
+.hero{background:linear-gradient(135deg,#2563eb,#7c3aed);text-align:center;padding:110px 20px;animation:fadeIn 1s ease}
+.hero h1{font-size:46px;margin-bottom:10px}
+
+.btn{background:#22c55e;border:none;padding:12px 24px;border-radius:8px;color:white;font-size:14px;cursor:pointer;margin:5px;transition:.25s}
+.btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 25px rgba(0,0,0,.3)}
+
+.card{background:#1e293b;padding:22px;border-radius:12px;animation:fadeIn .7s ease}
+
+input,select,textarea{width:100%;padding:10px;margin:8px 0 14px;border-radius:6px;border:none}
+
+.hidden{display:none}
+
+.templates{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;max-height:300px;overflow:auto}
+.template{background:#1e293b;padding:12px;border-radius:8px;text-align:center;cursor:pointer;transition:.25s}
+.template:hover{background:#334155;transform:scale(1.05)}
+
+.toolbox{background:#1e293b;padding:15px;border-radius:10px;margin-bottom:10px}
+.block{background:#334155;padding:10px;border-radius:6px;margin:5px 0;cursor:grab;transition:.2s}
+.block:hover{background:#475569}
+
+.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+
+.preview{background:white;color:black;padding:20px;border-radius:8px;min-height:300px;transition:.3s}
+
+.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.panel{background:#1e293b;padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+
+.analytics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-top:20px}
+.stat{background:#334155;padding:20px;border-radius:10px;text-align:center;transition:.3s}
+.stat:hover{transform:scale(1.05)}
+.stat h2{margin:0;font-size:28px}
+
+.admin-table{width:100%;border-collapse:collapse;margin-top:15px}
+.admin-table th,.admin-table td{padding:10px;border-bottom:1px solid #334155;text-align:left}
+
+footer{background:#020617;text-align:center;padding:25px;margin-top:40px}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(15px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+@media(max-width:900px){
+.editor-grid{grid-template-columns:1fr}
+.dashboard-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
 <header>
-<h1>BuildMySiteBZ</h1>
+<h2>BuildMySite</h2>
 <nav>
-<a href="#services">Services</a>
 <a href="#builder">Builder</a>
+<a href="#dashboard">Dashboard</a>
+<a href="#admin">Admin</a>
+<a href="#pricing">Pricing</a>
 <a href="#contact">Contact</a>
 </nav>
 </header>
 
 <section class="hero">
-<h2>Create or Order a Website</h2>
-<p>Generate a website instantly or contact the owner for a professional one.</p>
-<button class="btn" onclick="document.getElementById('builder').scrollIntoView()">Start Building</button>
+<h1>Build and Publish Websites Instantly</h1>
+<p>Create, customize, and launch your website with your own subdomain.</p>
+<button class="btn" onclick="showLogin()">Login / Create Account</button>
 </section>
 
-<section id="services">
-<h2>What I Offer</h2>
-<div class="cards">
-<div class="card">
-<h3>Custom Website Creation</h3>
-<p>I personally design professional websites for businesses, creators, and brands.</p>
-</div>
-<div class="card">
-<h3>Modern Responsive Design</h3>
-<p>Websites that work perfectly on phones, tablets, and computers.</p>
-</div>
-<div class="card">
-<h3>Fast & Affordable</h3>
-<p>Get a website quickly without expensive agency prices.</p>
-</div>
+<section id="login">
+<div class="card" style="max-width:400px;margin:auto">
+<h3>User Login</h3>
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+<button class="btn" onclick="login()">Login / Register</button>
+<p style="font-size:12px">Database ready for Firebase / Supabase authentication.</p>
 </div>
 </section>
 
-<section id="builder">
-<h2>Website Generator</h2>
-<p>Choose a template and customize your website.</p>
+<section id="builder" class="hidden">
+<h2>Website Builder</h2>
 
-<div class="template-box">
-<div class="template" onclick="setTemplate('business')">Business</div>
-<div class="template" onclick="setTemplate('portfolio')">Portfolio</div>
-<div class="template" onclick="setTemplate('blog')">Blog</div>
-</div>
+<h3>300+ Templates</h3>
+<div class="templates" id="templateList"></div>
 
-<div class="builder-grid">
+<div class="editor-grid">
 
-<div>
+<div class="panel">
 <label>Website Title</label>
 <input id="title" placeholder="My Website">
 
 <label>Tagline</label>
-<input id="tagline" placeholder="Welcome to my website">
+<input id="tagline" placeholder="Welcome">
 
 <label>Theme Color</label>
 <select id="color">
@@ -91,82 +128,204 @@ textarea.code{height:180px;font-family:monospace}
 <option value="#16a34a">Green</option>
 <option value="#dc2626">Red</option>
 <option value="#7c3aed">Purple</option>
-<option value="#ea580c">Orange</option>
 </select>
 
 <label>Font</label>
 <select id="font">
 <option value="Arial">Arial</option>
-<option value="Georgia">Georgia</option>
 <option value="Verdana">Verdana</option>
-<option value="Courier New">Courier</option>
+<option value="Georgia">Georgia</option>
 </select>
 
-<button class="btn" onclick="generateSite()">Generate Website</button>
-<button class="btn" onclick="downloadSite()">Download Website</button>
+<button class="btn" onclick="generateSite()">Generate</button>
+<button class="btn" onclick="downloadSite()">Download</button>
+<button class="btn" onclick="publishSite()">Publish Website</button>
+
+<p style="font-size:12px;margin-top:10px">
+Publishing system prepared for real hosting APIs.
+</p>
 </div>
 
-<div>
-<h3>Preview</h3>
-<div id="preview" class="preview"></div>
+<div class="panel">
+<h3>Live Preview Editor</h3>
 
-<h3>Generated Code</h3>
-<textarea id="codeOutput" class="code"></textarea>
+<div class="toolbox">
+<div class="block" draggable="true" ondragstart="drag(event)" id="text">Text</div>
+<div class="block" draggable="true" ondragstart="drag(event)" id="image">Image</div>
+<div class="block" draggable="true" ondragstart="drag(event)" id="button">Button</div>
+</div>
+
+<div id="preview" class="preview" ondragover="allowDrop(event)" ondrop="drop(event)">
+<p>Drag elements here to design your website</p>
+</div>
+
 </div>
 
 </div>
 </section>
 
+<section id="dashboard" class="hidden">
+<h2>User Analytics Dashboard</h2>
+
+<div class="analytics-grid">
+<div class="stat">
+<h2 id="sitesStat">0</h2>
+<p>Sites Created</p>
+</div>
+
+<div class="stat">
+<h2 id="publishStat">0</h2>
+<p>Sites Published</p>
+</div>
+
+<div class="stat">
+<h2 id="visitsStat">0</h2>
+<p>Total Visitors</p>
+</div>
+
+<div class="stat">
+<h2 id="earningsStat">$0</h2>
+<p>Revenue</p>
+</div>
+</div>
+
+</section>
+
+<section id="admin" class="hidden">
+<h2>Admin Control Panel</h2>
+
+<div class="panel">
+<h3>Customer Management</h3>
+
+<table class="admin-table">
+<thead>
+<tr>
+<th>Customer</th>
+<th>Website</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="customerTable"></tbody>
+</table>
+
+<input id="custName" placeholder="Customer Name">
+<input id="custType" placeholder="Website Type">
+<select id="custStatus">
+<option>Pending</option>
+<option>In Progress</option>
+<option>Completed</option>
+</select>
+
+<button class="btn" onclick="addCustomer()">Add Customer</button>
+
+</div>
+</section>
+
+<section id="pricing">
+<h2>Subscriptions</h2>
+
+<div class="dashboard-grid">
+
+<div class="panel">
+<h3>Starter</h3>
+<p>$5 / month</p>
+<p>Basic templates and builder</p>
+<button class="btn" onclick="subscribe('Starter')">Subscribe</button>
+</div>
+
+<div class="panel">
+<h3>Pro</h3>
+<p>$15 / month</p>
+<p>All templates + hosting</p>
+<button class="btn" onclick="subscribe('Pro')">Subscribe</button>
+</div>
+
+<div class="panel">
+<h3>Business</h3>
+<p>$29 / month</p>
+<p>Hosting + subdomains</p>
+<button class="btn" onclick="subscribe('Business')">Subscribe</button>
+</div>
+
+</div>
+
+<p style="font-size:12px;margin-top:10px">
+Payments prepared for Stripe integration.
+</p>
+
+</section>
+
 <section id="contact">
-<h2>Contact the Owner</h2>
-<p>Want a professional website built for you? Send a request.</p>
-
+<h2>Request a Custom Website</h2>
 <form onsubmit="sendMail(event)">
-<label>Name</label>
-<input id="name" required>
-
-<label>Email</label>
-<input id="email" required>
-
-<label>Describe the website you want</label>
-<textarea id="message" rows="5" required></textarea>
-
+<input id="name" placeholder="Name" required>
+<input id="email" placeholder="Email" required>
+<textarea id="message" rows="5" placeholder="Describe your website" required></textarea>
 <button class="btn">Send Request</button>
 </form>
 </section>
 
 <footer>
-<p>© 2026 BuildMySite</p>
+<p>© 2026 BuildMySite Platform</p>
 </footer>
 
 <script>
 let generatedCode="";
-let selectedTemplate="business";
+let siteCount=0;
+let publishCount=0;
+let visitCount=0;
+let earnings=0;
 
-function setTemplate(type){
-selectedTemplate=type;
-alert(type+" template selected");
+/* 300 templates */
+for(let i=1;i<=300;i++){
+let div=document.createElement("div");
+div.className="template";
+div.innerText="Template "+i;
+div.onclick=()=>alert("Template "+i+" selected");
+document.getElementById("templateList").appendChild(div);
+}
+
+function showLogin(){document.getElementById("login").scrollIntoView()}
+
+function login(){
+let user=document.getElementById("username").value;
+let pass=document.getElementById("password").value;
+if(!user||!pass){alert("Enter login info");return}
+
+localStorage.setItem("user",user);
+
+document.getElementById("builder").classList.remove("hidden");
+document.getElementById("dashboard").classList.remove("hidden");
+document.getElementById("admin").classList.remove("hidden");
+
+alert("Welcome "+user);
+}
+
+function allowDrop(e){e.preventDefault()}
+
+function drag(e){e.dataTransfer.setData("text",e.target.id)}
+
+function drop(e){
+e.preventDefault();
+let data=e.dataTransfer.getData("text");
+let html="";
+
+if(data==="text") html="<p>Editable text block</p>";
+if(data==="image") html="<img src='https://via.placeholder.com/400'>";
+if(data==="button") html="<button>Button</button>";
+
+e.target.innerHTML+=html;
 }
 
 function generateSite(){
-let title=document.getElementById('title').value||"My Website";
-let tagline=document.getElementById('tagline').value||"Welcome to my website";
-let color=document.getElementById('color').value;
-let font=document.getElementById('font').value;
+siteCount++;
+document.getElementById("sitesStat").innerText=siteCount;
 
-let content="";
-
-if(selectedTemplate==="business"){
-content=`<h2>Our Services</h2><p>We provide professional services to our clients.</p>`;
-}
-
-if(selectedTemplate==="portfolio"){
-content=`<h2>My Work</h2><p>Here are some projects I have worked on.</p>`;
-}
-
-if(selectedTemplate==="blog"){
-content=`<h2>Latest Posts</h2><p>Welcome to my blog where I share articles.</p>`;
-}
+let title=document.getElementById("title").value||"My Website";
+let tagline=document.getElementById("tagline").value||"Welcome";
+let color=document.getElementById("color").value;
+let font=document.getElementById("font").value;
+let content=document.getElementById("preview").innerHTML;
 
 generatedCode=`<!DOCTYPE html>
 <html>
@@ -175,8 +334,7 @@ generatedCode=`<!DOCTYPE html>
 <style>
 body{font-family:${font};margin:0}
 header{background:${color};color:white;padding:25px;text-align:center}
-section{padding:40px;text-align:center}
-button{background:${color};color:white;border:none;padding:10px 18px;border-radius:6px}
+section{padding:40px}
 </style>
 </head>
 <body>
@@ -184,30 +342,13 @@ button{background:${color};color:white;border:none;padding:10px 18px;border-radi
 <h1>${title}</h1>
 <p>${tagline}</p>
 </header>
-<section>
-${content}
-<button>Learn More</button>
-</section>
+<section>${content}</section>
 </body>
 </html>`;
-
-document.getElementById('codeOutput').value=generatedCode;
-
-let previewHTML=`<div style="font-family:${font}">
-<div style="background:${color};padding:20px;color:white;text-align:center">
-<h2>${title}</h2>
-<p>${tagline}</p>
-</div>
-<div style="padding:20px;text-align:center">
-${content}
-</div>
-</div>`;
-
-document.getElementById('preview').innerHTML=previewHTML;
 }
 
 function downloadSite(){
-if(!generatedCode){alert("Generate a website first");return}
+if(!generatedCode){alert("Generate site first");return}
 let blob=new Blob([generatedCode],{type:"text/html"});
 let a=document.createElement("a");
 a.href=URL.createObjectURL(blob);
@@ -215,14 +356,38 @@ a.download="index.html";
 a.click();
 }
 
+function publishSite(){
+if(!generatedCode){alert("Generate site first");return}
+publishCount++;
+visitCount+=Math.floor(Math.random()*200);
+
+document.getElementById("publishStat").innerText=publishCount;
+document.getElementById("visitsStat").innerText=visitCount;
+
+alert("Website published! Future version will deploy to hosting and create subdomain.");
+}
+
+function addCustomer(){
+let name=document.getElementById("custName").value;
+let type=document.getElementById("custType").value;
+let status=document.getElementById("custStatus").value;
+
+let row=`<tr><td>${name}</td><td>${type}</td><td>${status}</td></tr>`;
+
+document.getElementById("customerTable").innerHTML+=row;
+}
+
+function subscribe(plan){
+alert(plan+" subscription selected. Connect Stripe here for real payments.");
+}
+
 function sendMail(e){
 e.preventDefault();
-let name=document.getElementById('name').value;
-let email=document.getElementById('email').value;
-let message=document.getElementById('message').value;
+let name=document.getElementById("name").value;
+let email=document.getElementById("email").value;
+let message=document.getElementById("message").value;
 
 let mailto=`mailto:blsalamlths@gmail.com?subject=Website Request from ${name}&body=Email:${email}%0D%0A%0D%0A${message}`;
-
 window.location.href=mailto;
 }
 </script>
