@@ -3,21 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BuildMySite.bz</title>
+<title>BuildMySite Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <!--
-IMPORTANT PLATFORM NOTES
-This version prepares your platform for real SaaS features.
-To make them fully functional you will later connect:
+FULL PLATFORM STRUCTURE
 
-• Database → Firebase / Supabase / MongoDB
-• Hosting system → Netlify API / Vercel API
-• Payments → Stripe
-• Authentication → Firebase Auth
-• Subdomains → yourdomain.com + DNS wildcard
+Subdomains you will create later:
 
-The UI and logic hooks are already prepared below.
+login.yourdomain.com  → login / register
+app.yourdomain.com    → website builder
+admin.yourdomain.com  → owner dashboard
+
+Backend Stack (recommended):
+Authentication: Firebase Auth
+Database: Firebase Firestore
+Payments: Stripe
+Hosting Deployment: Vercel API or Netlify API
+Subdomains: DNS wildcard *.yourdomain.com
+
+Database Structure Example
+
+users
+  id
+  email
+  role (user/admin)
+  subscription
+
+websites
+  id
+  ownerId
+  siteName
+  template
+  url
+
+customers
+  name
+  websiteType
+  status
+
+Admin email should be your account so only you access admin panel.
 -->
 
 <style>
@@ -36,7 +61,7 @@ section{padding:60px 20px;max-width:1200px;margin:auto}
 .btn{background:#22c55e;border:none;padding:12px 24px;border-radius:8px;color:white;font-size:14px;cursor:pointer;margin:5px;transition:.25s}
 .btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 25px rgba(0,0,0,.3)}
 
-.card{background:#1e293b;padding:22px;border-radius:12px;animation:fadeIn .7s ease}
+.card{background:#1e293b;padding:22px;border-radius:12px}
 
 input,select,textarea{width:100%;padding:10px;margin:8px 0 14px;border-radius:6px;border:none}
 
@@ -47,19 +72,14 @@ input,select,textarea{width:100%;padding:10px;margin:8px 0 14px;border-radius:6p
 .template:hover{background:#334155;transform:scale(1.05)}
 
 .toolbox{background:#1e293b;padding:15px;border-radius:10px;margin-bottom:10px}
-.block{background:#334155;padding:10px;border-radius:6px;margin:5px 0;cursor:grab;transition:.2s}
-.block:hover{background:#475569}
+.block{background:#334155;padding:10px;border-radius:6px;margin:5px 0;cursor:grab}
 
 .editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
 
-.preview{background:white;color:black;padding:20px;border-radius:8px;min-height:300px;transition:.3s}
-
-.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
-.panel{background:#1e293b;padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.preview{background:white;color:black;padding:20px;border-radius:8px;min-height:300px}
 
 .analytics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-top:20px}
-.stat{background:#334155;padding:20px;border-radius:10px;text-align:center;transition:.3s}
-.stat:hover{transform:scale(1.05)}
+.stat{background:#334155;padding:20px;border-radius:10px;text-align:center}
 .stat h2{margin:0;font-size:28px}
 
 .admin-table{width:100%;border-collapse:collapse;margin-top:15px}
@@ -74,36 +94,37 @@ to{opacity:1;transform:translateY(0)}
 
 @media(max-width:900px){
 .editor-grid{grid-template-columns:1fr}
-.dashboard-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
 <header>
-<h2>BuildMySiteBZ</h2>
+<h2>BuildMySite</h2>
 <nav>
 <a href="#builder">Builder</a>
 <a href="#dashboard">Dashboard</a>
 <a href="#admin">Admin</a>
 <a href="#pricing">Pricing</a>
-<a href="#contact">Contact</a>
 </nav>
 </header>
 
 <section class="hero">
-<h1>Build and Publish Websites Instantly</h1>
-<p>Create, customize, and launch your website with your own subdomain.</p>
-<button class="btn" onclick="showLogin()">Login / Create Account</button>
+<h1>Create and Publish Websites</h1>
+<p>Build, customize, and launch your site with your own subdomain.</p>
+<button class="btn" onclick="showLogin()">Login / Register</button>
 </section>
 
 <section id="login">
 <div class="card" style="max-width:400px;margin:auto">
-<h3>User Login</h3>
-<input id="username" placeholder="Username">
+<h3>Login</h3>
+<input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
-<button class="btn" onclick="login()">Login / Register</button>
-<p style="font-size:12px">Database ready for Firebase / Supabase authentication.</p>
+<button class="btn" onclick="login()">Login</button>
+
+<p style="font-size:12px">
+Connect this button to Firebase Auth login.
+</p>
 </div>
 </section>
 
@@ -115,39 +136,31 @@ to{opacity:1;transform:translateY(0)}
 
 <div class="editor-grid">
 
-<div class="panel">
+<div class="card">
 <label>Website Title</label>
-<input id="title" placeholder="My Website">
+<input id="title">
 
 <label>Tagline</label>
-<input id="tagline" placeholder="Welcome">
+<input id="tagline">
 
 <label>Theme Color</label>
 <select id="color">
 <option value="#2563eb">Blue</option>
 <option value="#16a34a">Green</option>
 <option value="#dc2626">Red</option>
-<option value="#7c3aed">Purple</option>
-</select>
-
-<label>Font</label>
-<select id="font">
-<option value="Arial">Arial</option>
-<option value="Verdana">Verdana</option>
-<option value="Georgia">Georgia</option>
 </select>
 
 <button class="btn" onclick="generateSite()">Generate</button>
-<button class="btn" onclick="downloadSite()">Download</button>
-<button class="btn" onclick="publishSite()">Publish Website</button>
+<button class="btn" onclick="publishSite()">Publish</button>
 
-<p style="font-size:12px;margin-top:10px">
-Publishing system prepared for real hosting APIs.
+<p style="font-size:12px">
+Publish should send HTML to backend API that deploys site.
 </p>
+
 </div>
 
-<div class="panel">
-<h3>Live Preview Editor</h3>
+<div class="card">
+<h3>Live Editor</h3>
 
 <div class="toolbox">
 <div class="block" draggable="true" ondragstart="drag(event)" id="text">Text</div>
@@ -156,31 +169,30 @@ Publishing system prepared for real hosting APIs.
 </div>
 
 <div id="preview" class="preview" ondragover="allowDrop(event)" ondrop="drop(event)">
-<p>Drag elements here to design your website</p>
+<p>Drag elements here</p>
 </div>
-
 </div>
 
 </div>
 </section>
 
 <section id="dashboard" class="hidden">
-<h2>User Analytics Dashboard</h2>
+<h2>User Dashboard</h2>
 
 <div class="analytics-grid">
 <div class="stat">
 <h2 id="sitesStat">0</h2>
-<p>Sites Created</p>
+<p>Sites</p>
 </div>
 
 <div class="stat">
 <h2 id="publishStat">0</h2>
-<p>Sites Published</p>
+<p>Published</p>
 </div>
 
 <div class="stat">
 <h2 id="visitsStat">0</h2>
-<p>Total Visitors</p>
+<p>Visitors</p>
 </div>
 
 <div class="stat">
@@ -194,13 +206,13 @@ Publishing system prepared for real hosting APIs.
 <section id="admin" class="hidden">
 <h2>Admin Control Panel</h2>
 
-<div class="panel">
-<h3>Customer Management</h3>
+<div class="card">
+<h3>Customers</h3>
 
 <table class="admin-table">
 <thead>
 <tr>
-<th>Customer</th>
+<th>Name</th>
 <th>Website</th>
 <th>Status</th>
 </tr>
@@ -216,125 +228,110 @@ Publishing system prepared for real hosting APIs.
 <option>Completed</option>
 </select>
 
-<button class="btn" onclick="addCustomer()">Add Customer</button>
-
+<button class="btn" onclick="addCustomer()">Add</button>
 </div>
+
 </section>
 
 <section id="pricing">
 <h2>Subscriptions</h2>
 
-<div class="dashboard-grid">
+<div class="editor-grid">
 
-<div class="panel">
+<div class="card">
 <h3>Starter</h3>
-<p>$5 / Month</p>
-<p>Basic templates and builder</p>
-<button class="btn" onclick="subscribe('Starter')">Subscribe</button>
+<p>$5/month</p>
+<button class="btn" onclick="subscribe('starter')">Subscribe</button>
 </div>
 
-<div class="panel">
+<div class="card">
 <h3>Pro</h3>
-<p>$15 / Month</p>
-<p>All templates + Hosting</p>
-<button class="btn" onclick="subscribe('Pro')">Subscribe</button>
+<p>$15/month</p>
+<button class="btn" onclick="subscribe('pro')">Subscribe</button>
 </div>
 
-<div class="panel">
+<div class="card">
 <h3>Business</h3>
-<p>$29 / Month</p>
-<p>Hosting + Subdomains</p>
-<button class="btn" onclick="subscribe('Business')">Subscribe</button>
+<p>$29/month</p>
+<button class="btn" onclick="subscribe('business')">Subscribe</button>
 </div>
 
 </div>
 
-<p style="font-size:12px;margin-top:10px">
-Payments prepared for Stripe integration.
+<p style="font-size:12px">
+Connect subscribe() to Stripe checkout session.
 </p>
-
-</section>
-
-<section id="contact">
-<h2>Request a Custom Website</h2>
-<form onsubmit="sendMail(event)">
-<input id="name" placeholder="Name" required>
-<input id="email" placeholder="Email" required>
-<textarea id="message" rows="5" placeholder="Describe your website" required></textarea>
-<button class="btn">Send Request</button>
-</form>
 </section>
 
 <footer>
-<p>© 2026 BuildMySite Platform</p>
+<p>© 2026 BuildMySite</p>
 </footer>
 
 <script>
+
 let generatedCode="";
 let siteCount=0;
 let publishCount=0;
 let visitCount=0;
 let earnings=0;
 
-/* 300 templates */
+/* generate 300 templates */
 for(let i=1;i<=300;i++){
 let div=document.createElement("div");
 div.className="template";
 div.innerText="Template "+i;
-div.onclick=()=>alert("Template "+i+" selected");
 document.getElementById("templateList").appendChild(div);
 }
 
-function showLogin(){document.getElementById("login").scrollIntoView()}
+function showLogin(){
+document.getElementById("login").scrollIntoView()
+}
 
+/* LOGIN SHOULD CALL FIREBASE AUTH */
 function login(){
-let user=document.getElementById("username").value;
-let pass=document.getElementById("password").value;
-if(!user||!pass){alert("Enter login info");return}
+let email=document.getElementById("email").value
 
-localStorage.setItem("user",user);
+if(email === "blsalamlths@gmail.com"){
+ document.getElementById("admin").classList.remove("hidden")
+}
 
-document.getElementById("builder").classList.remove("hidden");
-document.getElementById("dashboard").classList.remove("hidden");
-document.getElementById("admin").classList.remove("hidden");
-
-alert("Welcome "+user);
+ document.getElementById("builder").classList.remove("hidden")
+ document.getElementById("dashboard").classList.remove("hidden")
 }
 
 function allowDrop(e){e.preventDefault()}
 
-function drag(e){e.dataTransfer.setData("text",e.target.id)}
+function drag(e){
+e.dataTransfer.setData("text",e.target.id)
+}
 
 function drop(e){
-e.preventDefault();
-let data=e.dataTransfer.getData("text");
-let html="";
+e.preventDefault()
+let data=e.dataTransfer.getData("text")
+let html=""
 
-if(data==="text") html="<p>Editable text block</p>";
-if(data==="image") html="<img src='https://via.placeholder.com/400'>";
-if(data==="button") html="<button>Button</button>";
+if(data==="text") html="<p>Sample text</p>"
+if(data==="image") html="<img src='https://via.placeholder.com/400'>"
+if(data==="button") html="<button>Click</button>"
 
-e.target.innerHTML+=html;
+e.target.innerHTML+=html
 }
 
 function generateSite(){
-siteCount++;
-document.getElementById("sitesStat").innerText=siteCount;
+siteCount++
+document.getElementById("sitesStat").innerText=siteCount
 
-let title=document.getElementById("title").value||"My Website";
-let tagline=document.getElementById("tagline").value||"Welcome";
-let color=document.getElementById("color").value;
-let font=document.getElementById("font").value;
-let content=document.getElementById("preview").innerHTML;
+let title=document.getElementById("title").value
+let tagline=document.getElementById("tagline").value
+let color=document.getElementById("color").value
+let content=document.getElementById("preview").innerHTML
 
 generatedCode=`<!DOCTYPE html>
 <html>
 <head>
 <title>${title}</title>
 <style>
-body{font-family:${font};margin:0}
-header{background:${color};color:white;padding:25px;text-align:center}
-section{padding:40px}
+header{background:${color};color:white;padding:30px;text-align:center}
 </style>
 </head>
 <body>
@@ -344,52 +341,36 @@ section{padding:40px}
 </header>
 <section>${content}</section>
 </body>
-</html>`;
-}
-
-function downloadSite(){
-if(!generatedCode){alert("Generate site first");return}
-let blob=new Blob([generatedCode],{type:"text/html"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="index.html";
-a.click();
+</html>`
 }
 
 function publishSite(){
 if(!generatedCode){alert("Generate site first");return}
-publishCount++;
-visitCount+=Math.floor(Math.random()*200);
 
-document.getElementById("publishStat").innerText=publishCount;
-document.getElementById("visitsStat").innerText=visitCount;
+publishCount++
+visitCount+=Math.floor(Math.random()*200)
 
-alert("Website published! Future version will deploy to hosting and create subdomain.");
-}
+document.getElementById("publishStat").innerText=publishCount
 
-function addCustomer(){
-let name=document.getElementById("custName").value;
-let type=document.getElementById("custType").value;
-let status=document.getElementById("custStatus").value;
+document.getElementById("visitsStat").innerText=visitCount
 
-let row=`<tr><td>${name}</td><td>${type}</td><td>${status}</td></tr>`;
-
-document.getElementById("customerTable").innerHTML+=row;
+alert("In production this will send HTML to a backend that deploys the website and creates a subdomain.")
 }
 
 function subscribe(plan){
-alert(plan+" subscription selected. Connect Stripe here for real payments.");
+alert("Stripe checkout would start for plan: "+plan)
 }
 
-function sendMail(e){
-e.preventDefault();
-let name=document.getElementById("name").value;
-let email=document.getElementById("email").value;
-let message=document.getElementById("message").value;
+function addCustomer(){
+let name=document.getElementById("custName").value
+let type=document.getElementById("custType").value
+let status=document.getElementById("custStatus").value
 
-let mailto=`mailto:blsalamlths@gmail.com?subject=Website Request from ${name}&body=Email:${email}%0D%0A%0D%0A${message}`;
-window.location.href=mailto;
+let row=`<tr><td>${name}</td><td>${type}</td><td>${status}</td></tr>`
+
+document.getElementById("customerTable").innerHTML+=row
 }
+
 </script>
 
 </body>
