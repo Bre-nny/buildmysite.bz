@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BuildMySite</title>
+<title>BuildMySite.bz</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
@@ -34,7 +34,7 @@ textarea.code{height:180px;font-family:monospace}
 <body>
 
 <header>
-<h1>BuildMySite</h1>
+<h1>BuildMySite.BZ</h1>
 <nav>
 <a href="#services">Services</a>
 <a href="#builder">Builder</a>
@@ -136,7 +136,7 @@ textarea.code{height:180px;font-family:monospace}
 </section>
 
 <footer>
-<p>© 2026 BuildMySite</p>
+<p>© 2026 BuildMySite.BZ</p>
 </footer>
 
 <script>
@@ -148,7 +148,8 @@ selectedTemplate=type;
 alert(type+" template selected");
 }
 
-function generateSite(){
+function generateSite()
+{
 let title=document.getElementById('title').value||"My Website";
 let tagline=document.getElementById('tagline').value||"Welcome to my website";
 let color=document.getElementById('color').value;
@@ -156,16 +157,20 @@ let font=document.getElementById('font').value;
 
 let content="";
 
-if(selectedTemplate==="business"){
-content=`<h2>Our Services</h2><p>We provide professional services to our clients.</p>`;
-}
+    if(selectedTemplate==="business")
+    {
+        content=`<h2>Our Services</h2><p>We provide professional services to our clients.</p>`;
+    }
 
-if(selectedTemplate==="portfolio"){
-content=`<h2>My Work</h2><p>Here are some projects I have worked on.</p>`;
-}
+    if(selectedTemplate==="portfolio")
+    {
+        content=`<h2>My Work</h2><p>Here are some projects I have worked on.</p>`;
+    }
 
-if(selectedTemplate==="blog"){
-content=`<h2>Latest Posts</h2><p>Welcome to my blog where I share articles.</p>`;
+    if(selectedTemplate==="blog")
+    {
+        content=`<h2>Latest Posts</h2><p>Welcome to my blog where I share articles.</p>`;
+    }
 }
 
 generatedCode=`<!DOCTYPE html>
@@ -189,42 +194,8 @@ ${content}
 <button>Learn More</button>
 </section>
 </body>
-</html>`;
+</html>
 
-document.getElementById('codeOutput').value=generatedCode;
-
-let previewHTML=`<div style="font-family:${font}">
-<div style="background:${color};padding:20px;color:white;text-align:center">
-<h2>${title}</h2>
-<p>${tagline}</p>
-</div>
-<div style="padding:20px;text-align:center">
-${content}
-</div>
-</div>`;
-
-document.getElementById('preview').innerHTML=previewHTML;
-}
-
-function downloadSite(){
-if(!generatedCode){alert("Generate a website first");return}
-let blob=new Blob([generatedCode],{type:"text/html"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="index.html";
-a.click();
-}
-
-function sendMail(e){
-e.preventDefault();
-let name=document.getElementById('name').value;
-let email=document.getElementById('email').value;
-let message=document.getElementById('message').value;
-
-let mailto=`mailto:blsalamlths@gmail.com?subject=Website Request from ${name}&body=Email:${email}%0D%0A%0D%0A${message}`;
-
-window.location.href=mailto;
-}
 </script>
 
 </body>
