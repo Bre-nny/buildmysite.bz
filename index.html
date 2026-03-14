@@ -4,31 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BuildMySite</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
-body{font-family:Poppins,Arial,sans-serif;margin:0;background:#0f172a;color:white}
-header{background:#020617;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
-header h1{margin:0;font-size:22px}
-nav a{color:white;margin-left:25px;text-decoration:none;font-size:14px}
-.hero{padding:100px 20px;text-align:center;background:linear-gradient(135deg,#2563eb,#7c3aed)}
-.hero h2{font-size:48px;margin-bottom:10px}
-.hero p{opacity:.9;font-size:18px}
-.btn{background:#22c55e;border:none;padding:12px 22px;border-radius:8px;color:white;font-size:15px;cursor:pointer}
-.btn:hover{opacity:.9}
-section{padding:70px 20px;max-width:1100px;margin:auto}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px}
-.card{background:#1e293b;padding:25px;border-radius:14px}
-.builder-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-label{font-size:14px}
-input,select,textarea{width:100%;padding:10px;margin-top:6px;margin-bottom:16px;border-radius:6px;border:none}
-.preview{background:white;color:black;padding:20px;border-radius:10px;margin-top:10px;min-height:200px;overflow:auto}
-footer{background:#020617;padding:30px;text-align:center;margin-top:60px}
-textarea.code{height:180px;font-family:monospace}
-.template-box{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
-.template{background:#1e293b;padding:15px;border-radius:8px;text-align:center;cursor:pointer;font-size:14px}
-.template:hover{background:#334155}
-@media(max-width:800px){.builder-grid{grid-template-columns:1fr}}
+body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#0f172a;color:white}
+header{background:#020617;padding:20px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0}
+nav a{color:white;margin-left:20px;text-decoration:none}
+.hero{padding:80px 20px;text-align:center;background:linear-gradient(135deg,#1e3a8a,#9333ea)}
+.hero h2{font-size:42px;margin-bottom:10px}
+.hero p{opacity:.9}
+.btn{background:#22c55e;border:none;padding:12px 22px;border-radius:8px;color:white;font-size:16px;cursor:pointer}
+section{padding:60px 20px;max-width:1100px;margin:auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:#1e293b;padding:20px;border-radius:12px}
+input,select,textarea{width:100%;padding:10px;margin-top:8px;margin-bottom:15px;border-radius:6px;border:none}
+footer{background:#020617;padding:30px;text-align:center;margin-top:40px}
+.preview{border:1px solid #334155;padding:20px;border-radius:8px;margin-top:20px;background:white;color:black}
 </style>
 </head>
 <body>
@@ -37,193 +27,111 @@ textarea.code{height:180px;font-family:monospace}
 <h1>BuildMySite</h1>
 <nav>
 <a href="#services">Services</a>
-<a href="#builder">Builder</a>
+<a href="#builder">Website Builder</a>
 <a href="#contact">Contact</a>
 </nav>
 </header>
 
 <section class="hero">
-<h2>Create or Order a Website</h2>
-<p>Generate a website instantly or contact the owner for a professional one.</p>
-<button class="btn" onclick="document.getElementById('builder').scrollIntoView()">Start Building</button>
+<h2>Get Your Website Built</h2>
+<p>Need a professional website? Contact the owner and get a custom site made for you.</p>
+<button class="btn" onclick="document.getElementById('contact').scrollIntoView()">Contact Me</button>
 </section>
 
 <section id="services">
 <h2>What I Offer</h2>
 <div class="cards">
 <div class="card">
-<h3>Custom Website Creation</h3>
-<p>I personally design professional websites for businesses, creators, and brands.</p>
+<h3>Custom Websites</h3>
+<p>I build professional websites for businesses, creators, and personal brands.</p>
 </div>
 <div class="card">
-<h3>Modern Responsive Design</h3>
-<p>Websites that work perfectly on phones, tablets, and computers.</p>
+<h3>Modern Design</h3>
+<p>Clean layouts, modern fonts, and responsive designs that work on any device.</p>
 </div>
 <div class="card">
-<h3>Fast & Affordable</h3>
-<p>Get a website quickly without expensive agency prices.</p>
+<h3>Fast Delivery</h3>
+<p>Your website can be designed and ready quickly depending on complexity.</p>
 </div>
 </div>
 </section>
 
 <section id="builder">
-<h2>Website Generator</h2>
-<p>Choose a template and customize your website.</p>
+<h2>Simple Website Generator</h2>
+<p>Create a basic website layout instantly.</p>
 
-<div class="template-box">
-<div class="template" onclick="setTemplate('business')">Business</div>
-<div class="template" onclick="setTemplate('portfolio')">Portfolio</div>
-<div class="template" onclick="setTemplate('blog')">Blog</div>
-</div>
-
-<div class="builder-grid">
-
-<div>
 <label>Website Title</label>
 <input id="title" placeholder="My Website">
 
-<label>Tagline</label>
-<input id="tagline" placeholder="Welcome to my website">
-
-<label>Theme Color</label>
+<label>Header Color</label>
 <select id="color">
-<option value="#2563eb">Blue</option>
+<option value="#1e3a8a">Blue</option>
 <option value="#16a34a">Green</option>
 <option value="#dc2626">Red</option>
-<option value="#7c3aed">Purple</option>
-<option value="#ea580c">Orange</option>
+<option value="#9333ea">Purple</option>
 </select>
 
 <label>Font</label>
 <select id="font">
 <option value="Arial">Arial</option>
 <option value="Georgia">Georgia</option>
-<option value="Verdana">Verdana</option>
 <option value="Courier New">Courier</option>
+<option value="Verdana">Verdana</option>
 </select>
 
 <button class="btn" onclick="generateSite()">Generate Website</button>
-<button class="btn" onclick="downloadSite()">Download Website</button>
-</div>
 
-<div>
-<h3>Preview</h3>
-<div id="preview" class="preview"></div>
-
-<h3>Generated Code</h3>
-<textarea id="codeOutput" class="code"></textarea>
-</div>
-
-</div>
+<div class="preview" id="preview"></div>
 </section>
 
 <section id="contact">
 <h2>Contact the Owner</h2>
-<p>Want a professional website built for you? Send a request.</p>
+<p>If you want a full professional website built, send a request below.</p>
 
-<form onsubmit="sendMail(event)">
+<form>
 <label>Name</label>
-<input id="name" required>
+<input placeholder="Your name">
 
 <label>Email</label>
-<input id="email" required>
+<input placeholder="Your email">
 
 <label>Describe the website you want</label>
-<textarea id="message" rows="5" required></textarea>
+<textarea rows="5"></textarea>
 
-<button class="btn">Send Request</button>
+<button class="btn" type="submit">Send Request</button>
 </form>
 </section>
 
 <footer>
-<p>© 2026 BuildMySite</p>
+<p>© 2026 BuildMySite - Website Creation Service</p>
 </footer>
 
 <script>
-let generatedCode="";
-let selectedTemplate="business";
-
-function setTemplate(type){
-selectedTemplate=type;
-alert(type+" template selected");
-}
-
 function generateSite(){
 let title=document.getElementById('title').value||"My Website";
-let tagline=document.getElementById('tagline').value||"Welcome to my website";
 let color=document.getElementById('color').value;
 let font=document.getElementById('font').value;
 
-let content="";
-
-if(selectedTemplate==="business"){
-content=`<h2>Our Services</h2><p>We provide professional services to our clients.</p>`;
-}
-
-if(selectedTemplate==="portfolio"){
-content=`<h2>My Work</h2><p>Here are some projects I have worked on.</p>`;
-}
-
-if(selectedTemplate==="blog"){
-content=`<h2>Latest Posts</h2><p>Welcome to my blog where I share articles.</p>`;
-}
-
-generatedCode=`<!DOCTYPE html>
+let code=`<!DOCTYPE html>
 <html>
 <head>
 <title>${title}</title>
 <style>
 body{font-family:${font};margin:0}
-header{background:${color};color:white;padding:25px;text-align:center}
+header{background:${color};color:white;padding:20px;text-align:center}
 section{padding:40px;text-align:center}
-button{background:${color};color:white;border:none;padding:10px 18px;border-radius:6px}
 </style>
 </head>
 <body>
-<header>
-<h1>${title}</h1>
-<p>${tagline}</p>
-</header>
+<header><h1>${title}</h1></header>
 <section>
-${content}
-<button>Learn More</button>
+<h2>Welcome to my website</h2>
+<p>This website was generated using BuildMySite.</p>
 </section>
 </body>
 </html>`;
 
-document.getElementById('codeOutput').value=generatedCode;
-
-let previewHTML=`<div style="font-family:${font}">
-<div style="background:${color};padding:20px;color:white;text-align:center">
-<h2>${title}</h2>
-<p>${tagline}</p>
-</div>
-<div style="padding:20px;text-align:center">
-${content}
-</div>
-</div>`;
-
-document.getElementById('preview').innerHTML=previewHTML;
-}
-
-function downloadSite(){
-if(!generatedCode){alert("Generate a website first");return}
-let blob=new Blob([generatedCode],{type:"text/html"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="index.html";
-a.click();
-}
-
-function sendMail(e){
-e.preventDefault();
-let name=document.getElementById('name').value;
-let email=document.getElementById('email').value;
-let message=document.getElementById('message').value;
-
-let mailto=`mailto:blsalamlths@gmail.com?subject=Website Request from ${name}&body=Email:${email}%0D%0A%0D%0A${message}`;
-
-window.location.href=mailto;
+document.getElementById('preview').textContent=code;
 }
 </script>
 
