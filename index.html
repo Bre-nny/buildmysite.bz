@@ -5,248 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BuildMySite</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@400;700&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
-
-<!--
-PLATFORM STRUCTURE (SUBDOMAINS)
-
-login.yourdomain.com  → Login & register
-builder.yourdomain.com → Website builder
-dashboard.yourdomain.com → User dashboard
-admin.yourdomain.com → Owner control panel
-sites.yourdomain.com → Published user websites
-
-This file represents the builder + dashboard UI.
--->
-
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-font-family:Poppins,Arial;
-background:#0f172a;
-color:white;
-overflow-x:hidden;
-}
-
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 40px;
-background:#020617;
-position:sticky;
-top:0;
-z-index:10;
-}
-
+body{margin:0;font-family:Poppins,Arial;background:#0f172a;color:white;overflow-x:hidden}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;background:#020617;position:sticky;top:0;z-index:10}
 header h2{margin:0}
-
-nav a{
-margin-left:20px;
-text-decoration:none;
-color:white;
-font-size:14px;
-transition:.3s;
-}
-
-nav a:hover{
-color:#38bdf8;
-}
-
-.hero{
-text-align:center;
-padding:120px 20px;
-background:linear-gradient(135deg,#2563eb,#9333ea);
-animation:fadeIn 1s ease;
-}
-
-.hero h1{
-font-size:50px;
-margin-bottom:10px;
-}
-
-.hero p{
-opacity:.9;
-}
-
-.btn{
-background:#22c55e;
-border:none;
-padding:13px 24px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-margin:6px;
-font-weight:600;
-transition:.25s;
-}
-
-.btn:hover{
-transform:translateY(-4px) scale(1.05);
-box-shadow:0 10px 25px rgba(0,0,0,.4);
-}
-
-section{
-padding:60px 20px;
-max-width:1200px;
-margin:auto;
-}
-
-.card{
-background:#1e293b;
-padding:25px;
-border-radius:14px;
-box-shadow:0 10px 25px rgba(0,0,0,.3);
-animation:fadeInUp .7s ease;
-}
-
-input,select,textarea{
-width:100%;
-padding:10px;
-border:none;
-border-radius:6px;
-margin:8px 0 14px;
-}
-
+nav a{margin-left:20px;text-decoration:none;color:white;font-size:14px;transition:.3s}
+nav a:hover{color:#38bdf8}
+.hero{text-align:center;padding:120px 20px;background:linear-gradient(135deg,#2563eb,#9333ea);animation:fadeIn 1s ease}
+.hero h1{font-size:50px;margin-bottom:10px}
+.hero p{opacity:.9}
+.btn{background:#22c55e;border:none;padding:13px 24px;border-radius:8px;color:white;cursor:pointer;margin:6px;font-weight:600;transition:.25s}
+.btn:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 10px 25px rgba(0,0,0,.4)}
+section{padding:60px 20px;max-width:1200px;margin:auto}
+.card{background:#1e293b;padding:25px;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,.3);animation:fadeInUp .7s ease}
+input,select,textarea{width:100%;padding:10px;border:none;border-radius:6px;margin:8px 0 14px}
 .hidden{display:none}
-
-/* template grid */
-.templates{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:15px;
-max-height:420px;
-overflow:auto;
-margin-top:20px;
-}
-
-.template{
-background:#1e293b;
-border-radius:10px;
-overflow:hidden;
-cursor:pointer;
-transition:.3s;
-}
-
-.template img{
-width:100%;
-height:110px;
-object-fit:cover;
-}
-
-.template div{
-padding:10px;
-font-size:13px;
-}
-
-.template:hover{
-transform:scale(1.07);
-box-shadow:0 10px 20px rgba(0,0,0,.4);
-}
-
-.editor{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:25px;
-margin-top:30px;
-}
-
-.toolbox{
-background:#1e293b;
-padding:15px;
-border-radius:10px;
-margin-bottom:10px;
-}
-
-.block{
-background:#334155;
-padding:10px;
-border-radius:6px;
-margin-bottom:6px;
-cursor:grab;
-transition:.2s;
-}
-
+.templates{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;max-height:420px;overflow:auto;margin-top:20px}
+.template{background:#1e293b;border-radius:10px;overflow:hidden;cursor:pointer;transition:.3s}
+.template img{width:100%;height:110px;object-fit:cover}
+.template div{padding:10px;font-size:13px}
+.template:hover{transform:scale(1.07);box-shadow:0 10px 20px rgba(0,0,0,.4)}
+.editor{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-top:30px}
+.toolbox{background:#1e293b;padding:15px;border-radius:10px;margin-bottom:10px}
+.block{background:#334155;padding:10px;border-radius:6px;margin-bottom:6px;cursor:grab;transition:.2s}
 .block:hover{background:#475569}
-
-.preview{
-background:white;
-color:black;
-padding:20px;
-border-radius:8px;
-min-height:300px;
-}
-
-/* analytics */
-.analytics{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:20px;
-}
-
-.stat{
-background:#1e293b;
-padding:25px;
-border-radius:12px;
-text-align:center;
-transition:.3s;
-}
-
+.preview{background:white;color:black;padding:20px;border-radius:8px;min-height:300px}
+.analytics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+.stat{background:#1e293b;padding:25px;border-radius:12px;text-align:center;transition:.3s}
 .stat:hover{transform:scale(1.05)}
-
 .stat h2{margin:0;font-size:30px}
-
-/* admin table */
-.admin-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
-
-.admin-table th,.admin-table td{
-padding:10px;
-border-bottom:1px solid #334155;
-text-align:left;
-}
-
-footer{
-text-align:center;
-padding:30px;
-background:#020617;
-margin-top:40px;
-}
-
-@keyframes fadeIn{
-from{opacity:0}
-to{opacity:1}
-}
-
-@keyframes fadeInUp{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:translateY(0)}
-}
-
-@media(max-width:900px){
-.editor{grid-template-columns:1fr}
-}
-
-.logo{
-height:auto;
-width:100px;
-margin-right:8px;
-vertical-align:middle;
-border-radius: 15px
-}
-
+.admin-table{width:100%;border-collapse:collapse;margin-top:20px}
+.admin-table th,.admin-table td{padding:10px;border-bottom:1px solid #334155;text-align:left}
+footer{text-align:center;padding:30px;background:#020617;margin-top:40px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){.editor{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <header>
-<h2 href="index.html"><img src="BMSBZ4K.png" alt="BuildMySiteBZ Logo" class="logo"  width="100" height="50"></a>
-		BuildMySiteBZ
-</h2>
+<h2>BuildMySite</h2>
 <nav>
 <a href="#builder">Builder</a>
 <a href="#dashboard">Dashboard</a>
@@ -260,30 +60,23 @@ border-radius: 15px
 <button class="btn" onclick="showLogin()">Login</button>
 </section>
 
-<section id="login">
-<div class="card" style="max-width:400px;margin:auto">
+<section id="login" class="card">
 <h3>Login</h3>
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
 <button class="btn" onclick="login()">Login</button>
-</div>
 </section>
 
 <section id="builder" class="hidden">
 <h2>Website Builder</h2>
-
 <h3>Templates</h3>
 <div class="templates" id="templateList"></div>
-
 <div class="editor">
-
 <div class="card">
 <label>Website Title</label>
 <input id="title">
-
 <label>Tagline</label>
 <input id="tagline">
-
 <label>Color</label>
 <select id="color">
 <option value="#2563eb">Blue</option>
@@ -291,55 +84,44 @@ border-radius: 15px
 <option value="#dc2626">Red</option>
 <option value="#9333ea">Purple</option>
 </select>
-
 <label>Font</label>
 <select id="font">
 <option value="Poppins">Poppins</option>
 <option value="Montserrat">Montserrat</option>
 <option value="Playfair Display">Playfair</option>
 </select>
-
 <button class="btn" onclick="generateSite()">Generate</button>
 <button class="btn" onclick="publishSite()">Publish</button>
 </div>
-
 <div class="card">
 <h3>Live Editor</h3>
-
 <div class="toolbox">
 <div class="block" draggable="true" ondragstart="drag(event)" id="text">Text Block</div>
 <div class="block" draggable="true" ondragstart="drag(event)" id="image">Image</div>
 <div class="block" draggable="true" ondragstart="drag(event)" id="button">Button</div>
 </div>
-
 <div id="preview" class="preview" ondragover="allowDrop(event)" ondrop="drop(event)">
 <p>Drag elements here</p>
 </div>
-
 </div>
-
 </div>
 </section>
 
 <section id="dashboard" class="hidden">
 <h2>User Dashboard</h2>
-
 <div class="analytics">
 <div class="stat">
 <h2 id="sitesStat">0</h2>
 <p>Websites</p>
 </div>
-
 <div class="stat">
 <h2 id="publishStat">0</h2>
 <p>Published</p>
 </div>
-
 <div class="stat">
 <h2 id="visitsStat">0</h2>
 <p>Visitors</p>
 </div>
-
 <div class="stat">
 <h2>$0</h2>
 <p>Revenue</p>
@@ -349,10 +131,8 @@ border-radius: 15px
 
 <section id="admin" class="hidden">
 <h2>Admin Control Panel</h2>
-
 <div class="card">
 <h3>Customers</h3>
-
 <table class="admin-table">
 <thead>
 <tr>
@@ -363,7 +143,6 @@ border-radius: 15px
 </thead>
 <tbody id="customerTable"></tbody>
 </table>
-
 <input id="custName" placeholder="Customer Name">
 <input id="custType" placeholder="Website Type">
 <select id="custStatus">
@@ -371,10 +150,8 @@ border-radius: 15px
 <option>In Progress</option>
 <option>Completed</option>
 </select>
-
 <button class="btn" onclick="addCustomer()">Add Customer</button>
 </div>
-
 </section>
 
 <footer>
@@ -382,99 +159,52 @@ border-radius: 15px
 </footer>
 
 <script>
-
-let generatedCode="";
-let siteCount=0;
-let publishCount=0;
-let visitCount=0;
-
-/* create templates with images */
-
-for(let i=1;i<=120;i++){
+// template images
+for(let i=1;i<=20;i++){
 let div=document.createElement("div")
 div.className="template"
-
-div.innerHTML=`
-<img src="https://picsum.photos/300/200?random=${i}">
-<div>Template ${i}</div>
-`
-
+div.innerHTML=`<img src="https://picsum.photos/300/200?random=${i}"><div>Template ${i}</div>`
 document.getElementById("templateList").appendChild(div)
 }
 
-function showLogin(){
-document.getElementById("login").scrollIntoView()
-}
+let generatedCode="",siteCount=0,publishCount=0,visitCount=0;
+
+function showLogin(){document.getElementById("login").scrollIntoView()}
 
 function login(){
 let email=document.getElementById("email").value
-
-if(email==="blsalamlths@gmail.com"){
-document.getElementById("admin").classList.remove("hidden")
-}
-
+if(email==="blsalamlths@gmail.com"){document.getElementById("admin").classList.remove("hidden")}
 document.getElementById("builder").classList.remove("hidden")
 document.getElementById("dashboard").classList.remove("hidden")
 }
 
 function allowDrop(e){e.preventDefault()}
-
-function drag(e){
-e.dataTransfer.setData("text",e.target.id)
-}
-
-function drop(e){
-e.preventDefault()
-
-let data=e.dataTransfer.getData("text")
-let html=""
-
+function drag(e){e.dataTransfer.setData("text",e.target.id)}
+function drop(e){e.preventDefault()
+let data=e.dataTransfer.getData("text"),html=""
 if(data==="text") html="<p>Example text</p>"
 if(data==="image") html="<img src='https://picsum.photos/400'>"
 if(data==="button") html="<button>Click</button>"
-
- e.target.innerHTML+=html
+e.target.innerHTML+=html
 }
 
 function generateSite(){
 siteCount++
 document.getElementById("sitesStat").innerText=siteCount
-
 let title=document.getElementById("title").value
 let tagline=document.getElementById("tagline").value
 let color=document.getElementById("color").value
 let font=document.getElementById("font").value
 let content=document.getElementById("preview").innerHTML
-
-generatedCode=`<!DOCTYPE html>
-<html>
-<head>
-<title>${title}</title>
-<style>
-body{font-family:${font};margin:0}
-header{background:${color};color:white;padding:40px;text-align:center}
-</style>
-</head>
-<body>
-<header>
-<h1>${title}</h1>
-<p>${tagline}</p>
-</header>
-<section>${content}</section>
-</body>
-</html>`
+generatedCode=`<!DOCTYPE html><html><head><title>${title}</title><style>body{font-family:${font};margin:0}header{background:${color};color:white;padding:40px;text-align:center}</style></head><body><header><h1>${title}</h1><p>${tagline}</p></header><section>${content}</section></body></html>`
 }
 
 function publishSite(){
 if(!generatedCode){alert("Generate site first");return}
-
 publishCount++
 visitCount+=Math.floor(Math.random()*200)
-
 document.getElementById("publishStat").innerText=publishCount
-
 document.getElementById("visitsStat").innerText=visitCount
-
 alert("Publishing will deploy the site and create a subdomain.")
 }
 
@@ -482,43 +212,9 @@ function addCustomer(){
 let name=document.getElementById("custName").value
 let type=document.getElementById("custType").value
 let status=document.getElementById("custStatus").value
-
 let row=`<tr><td>${name}</td><td>${type}</td><td>${status}</td></tr>`
-
 document.getElementById("customerTable").innerHTML+=row
 }
-
-</script>
-
-</body>
-</html>
-function publishSite(){
-if(!generatedCode){alert("Generate site first");return}
-
-publishCount++
-visitCount+=Math.floor(Math.random()*200)
-
-document.getElementById("publishStat").innerText=publishCount
-
-document.getElementById("visitsStat").innerText=visitCount
-
-alert("In production this will send HTML to a backend that deploys the website and creates a subdomain.")
-}
-
-function subscribe(plan){
-alert("Stripe checkout would start for plan: "+plan)
-}
-
-function addCustomer(){
-let name=document.getElementById("custName").value
-let type=document.getElementById("custType").value
-let status=document.getElementById("custStatus").value
-
-let row=`<tr><td>${name}</td><td>${type}</td><td>${status}</td></tr>`
-
-document.getElementById("customerTable").innerHTML+=row
-}
-
 </script>
 
 </body>
