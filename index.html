@@ -41,23 +41,12 @@ footer{text-align:center;padding:30px;background:#020617;margin-top:40px}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:900px){.editor{grid-template-columns:1fr}}
-
-.logo{
-height:auto;
-width:105px;
-margin-right:8px;
-vertical-align:middle;
-border-radius: 12px
-}
-  
 </style>
 </head>
 <body>
 
 <header>
-<h2 href="index.html"><img src="BMSBZ4K.png" alt="BuildMySiteBZ Logo" class="logo"  width="105" height="50"></a>
-	BuildMySiteBZ
-</h2>
+<h2>BuildMySite</h2>
 <nav>
 <a href="#builder">Builder</a>
 <a href="#dashboard">Dashboard</a>
@@ -169,64 +158,7 @@ border-radius: 12px
 <p>© 2026 BuildMySite</p>
 </footer>
 
-<script>
-// template images
-for(let i=1;i<=20;i++){
-let div=document.createElement("div")
-div.className="template"
-div.innerHTML=`<img src="https://picsum.photos/300/200?random=${i}"><div>Template ${i}</div>`
-document.getElementById("templateList").appendChild(div)
-}
-
-let generatedCode="",siteCount=0,publishCount=0,visitCount=0;
-
-function showLogin(){document.getElementById("login").scrollIntoView()}
-
-function login(){
-let email=document.getElementById("email").value
-if(email==="blsalamlths@gmail.com"){document.getElementById("admin").classList.remove("hidden")}
-document.getElementById("builder").classList.remove("hidden")
-document.getElementById("dashboard").classList.remove("hidden")
-}
-
-function allowDrop(e){e.preventDefault()}
-function drag(e){e.dataTransfer.setData("text",e.target.id)}
-function drop(e){e.preventDefault()
-let data=e.dataTransfer.getData("text"),html=""
-if(data==="text") html="<p>Example text</p>"
-if(data==="image") html="<img src='https://picsum.photos/400'>"
-if(data==="button") html="<button>Click</button>"
-e.target.innerHTML+=html
-}
-
-function generateSite(){
-siteCount++
-document.getElementById("sitesStat").innerText=siteCount
-let title=document.getElementById("title").value
-let tagline=document.getElementById("tagline").value
-let color=document.getElementById("color").value
-let font=document.getElementById("font").value
-let content=document.getElementById("preview").innerHTML
-generatedCode=`<!DOCTYPE html><html><head><title>${title}</title><style>body{font-family:${font};margin:0}header{background:${color};color:white;padding:40px;text-align:center}</style></head><body><header><h1>${title}</h1><p>${tagline}</p></header><section>${content}</section></body></html>`
-}
-
-function publishSite(){
-if(!generatedCode){alert("Generate site first");return}
-publishCount++
-visitCount+=Math.floor(Math.random()*200)
-document.getElementById("publishStat").innerText=publishCount
-document.getElementById("visitsStat").innerText=visitCount
-alert("Publishing will deploy the site and create a subdomain.")
-}
-
-function addCustomer(){
-let name=document.getElementById("custName").value
-let type=document.getElementById("custType").value
-let status=document.getElementById("custStatus").value
-let row=`<tr><td>${name}</td><td>${type}</td><td>${status}</td></tr>`
-document.getElementById("customerTable").innerHTML+=row
-}
-</script>
-
+<!-- Link external JS -->
+<script src="script.js"></script>
 </body>
 </html>
