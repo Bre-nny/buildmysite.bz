@@ -3,98 +3,234 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BuildMySite Platform</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>BuildMySite</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@400;700&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
 <!--
-FULL PLATFORM STRUCTURE
+PLATFORM STRUCTURE (SUBDOMAINS)
 
-Subdomains you will create later:
+login.yourdomain.com  → Login & register
+builder.yourdomain.com → Website builder
+dashboard.yourdomain.com → User dashboard
+admin.yourdomain.com → Owner control panel
+sites.yourdomain.com → Published user websites
 
-login.yourdomain.com  → login / register
-app.yourdomain.com    → website builder
-admin.yourdomain.com  → owner dashboard
-
-Backend Stack (recommended):
-Authentication: Firebase Auth
-Database: Firebase Firestore
-Payments: Stripe
-Hosting Deployment: Vercel API or Netlify API
-Subdomains: DNS wildcard *.yourdomain.com
-
-Database Structure Example
-
-users
-  id
-  email
-  role (user/admin)
-  subscription
-
-websites
-  id
-  ownerId
-  siteName
-  template
-  url
-
-customers
-  name
-  websiteType
-  status
-
-Admin email should be your account so only you access admin panel.
+This file represents the builder + dashboard UI.
 -->
 
 <style>
 *{box-sizing:border-box}
-body{font-family:Poppins,Arial,sans-serif;margin:0;background:#0f172a;color:white}
 
-header{background:#020617;padding:18px 35px;display:flex;justify-content:space-between;align-items:center}
-nav a{color:white;margin-left:20px;text-decoration:none;font-size:14px;transition:.3s}
-nav a:hover{color:#22c55e}
+body{
+margin:0;
+font-family:Poppins,Arial;
+background:#0f172a;
+color:white;
+overflow-x:hidden;
+}
 
-section{padding:60px 20px;max-width:1200px;margin:auto}
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:#020617;
+position:sticky;
+top:0;
+z-index:10;
+}
 
-.hero{background:linear-gradient(135deg,#2563eb,#7c3aed);text-align:center;padding:110px 20px;animation:fadeIn 1s ease}
-.hero h1{font-size:46px;margin-bottom:10px}
+header h2{margin:0}
 
-.btn{background:#22c55e;border:none;padding:12px 24px;border-radius:8px;color:white;font-size:14px;cursor:pointer;margin:5px;transition:.25s}
-.btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 25px rgba(0,0,0,.3)}
+nav a{
+margin-left:20px;
+text-decoration:none;
+color:white;
+font-size:14px;
+transition:.3s;
+}
 
-.card{background:#1e293b;padding:22px;border-radius:12px}
+nav a:hover{
+color:#38bdf8;
+}
 
-input,select,textarea{width:100%;padding:10px;margin:8px 0 14px;border-radius:6px;border:none}
+.hero{
+text-align:center;
+padding:120px 20px;
+background:linear-gradient(135deg,#2563eb,#9333ea);
+animation:fadeIn 1s ease;
+}
+
+.hero h1{
+font-size:50px;
+margin-bottom:10px;
+}
+
+.hero p{
+opacity:.9;
+}
+
+.btn{
+background:#22c55e;
+border:none;
+padding:13px 24px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+margin:6px;
+font-weight:600;
+transition:.25s;
+}
+
+.btn:hover{
+transform:translateY(-4px) scale(1.05);
+box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+section{
+padding:60px 20px;
+max-width:1200px;
+margin:auto;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+animation:fadeInUp .7s ease;
+}
+
+input,select,textarea{
+width:100%;
+padding:10px;
+border:none;
+border-radius:6px;
+margin:8px 0 14px;
+}
 
 .hidden{display:none}
 
-.templates{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;max-height:300px;overflow:auto}
-.template{background:#1e293b;padding:12px;border-radius:8px;text-align:center;cursor:pointer;transition:.25s}
-.template:hover{background:#334155;transform:scale(1.05)}
+/* template grid */
+.templates{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:15px;
+max-height:420px;
+overflow:auto;
+margin-top:20px;
+}
 
-.toolbox{background:#1e293b;padding:15px;border-radius:10px;margin-bottom:10px}
-.block{background:#334155;padding:10px;border-radius:6px;margin:5px 0;cursor:grab}
+.template{
+background:#1e293b;
+border-radius:10px;
+overflow:hidden;
+cursor:pointer;
+transition:.3s;
+}
 
-.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.template img{
+width:100%;
+height:110px;
+object-fit:cover;
+}
 
-.preview{background:white;color:black;padding:20px;border-radius:8px;min-height:300px}
+.template div{
+padding:10px;
+font-size:13px;
+}
 
-.analytics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-top:20px}
-.stat{background:#334155;padding:20px;border-radius:10px;text-align:center}
-.stat h2{margin:0;font-size:28px}
+.template:hover{
+transform:scale(1.07);
+box-shadow:0 10px 20px rgba(0,0,0,.4);
+}
 
-.admin-table{width:100%;border-collapse:collapse;margin-top:15px}
-.admin-table th,.admin-table td{padding:10px;border-bottom:1px solid #334155;text-align:left}
+.editor{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+margin-top:30px;
+}
 
-footer{background:#020617;text-align:center;padding:25px;margin-top:40px}
+.toolbox{
+background:#1e293b;
+padding:15px;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+.block{
+background:#334155;
+padding:10px;
+border-radius:6px;
+margin-bottom:6px;
+cursor:grab;
+transition:.2s;
+}
+
+.block:hover{background:#475569}
+
+.preview{
+background:white;
+color:black;
+padding:20px;
+border-radius:8px;
+min-height:300px;
+}
+
+/* analytics */
+.analytics{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
+}
+
+.stat{
+background:#1e293b;
+padding:25px;
+border-radius:12px;
+text-align:center;
+transition:.3s;
+}
+
+.stat:hover{transform:scale(1.05)}
+
+.stat h2{margin:0;font-size:30px}
+
+/* admin table */
+.admin-table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+.admin-table th,.admin-table td{
+padding:10px;
+border-bottom:1px solid #334155;
+text-align:left;
+}
+
+footer{
+text-align:center;
+padding:30px;
+background:#020617;
+margin-top:40px;
+}
 
 @keyframes fadeIn{
-from{opacity:0;transform:translateY(15px)}
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes fadeInUp{
+from{opacity:0;transform:translateY(20px)}
 to{opacity:1;transform:translateY(0)}
 }
 
 @media(max-width:900px){
-.editor-grid{grid-template-columns:1fr}
+.editor{grid-template-columns:1fr}
 }
+
 </style>
 </head>
 <body>
@@ -105,14 +241,13 @@ to{opacity:1;transform:translateY(0)}
 <a href="#builder">Builder</a>
 <a href="#dashboard">Dashboard</a>
 <a href="#admin">Admin</a>
-<a href="#pricing">Pricing</a>
 </nav>
 </header>
 
 <section class="hero">
-<h1>Create and Publish Websites</h1>
-<p>Build, customize, and launch your site with your own subdomain.</p>
-<button class="btn" onclick="showLogin()">Login / Register</button>
+<h1>Create Stunning Websites</h1>
+<p>Choose a template, customize it, and publish instantly.</p>
+<button class="btn" onclick="showLogin()">Login</button>
 </section>
 
 <section id="login">
@@ -121,20 +256,16 @@ to{opacity:1;transform:translateY(0)}
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
 <button class="btn" onclick="login()">Login</button>
-
-<p style="font-size:12px">
-Connect this button to Firebase Auth login.
-</p>
 </div>
 </section>
 
 <section id="builder" class="hidden">
 <h2>Website Builder</h2>
 
-<h3>300+ Templates</h3>
+<h3>Templates</h3>
 <div class="templates" id="templateList"></div>
 
-<div class="editor-grid">
+<div class="editor">
 
 <div class="card">
 <label>Website Title</label>
@@ -143,27 +274,30 @@ Connect this button to Firebase Auth login.
 <label>Tagline</label>
 <input id="tagline">
 
-<label>Theme Color</label>
+<label>Color</label>
 <select id="color">
 <option value="#2563eb">Blue</option>
 <option value="#16a34a">Green</option>
 <option value="#dc2626">Red</option>
+<option value="#9333ea">Purple</option>
+</select>
+
+<label>Font</label>
+<select id="font">
+<option value="Poppins">Poppins</option>
+<option value="Montserrat">Montserrat</option>
+<option value="Playfair Display">Playfair</option>
 </select>
 
 <button class="btn" onclick="generateSite()">Generate</button>
 <button class="btn" onclick="publishSite()">Publish</button>
-
-<p style="font-size:12px">
-Publish should send HTML to backend API that deploys site.
-</p>
-
 </div>
 
 <div class="card">
 <h3>Live Editor</h3>
 
 <div class="toolbox">
-<div class="block" draggable="true" ondragstart="drag(event)" id="text">Text</div>
+<div class="block" draggable="true" ondragstart="drag(event)" id="text">Text Block</div>
 <div class="block" draggable="true" ondragstart="drag(event)" id="image">Image</div>
 <div class="block" draggable="true" ondragstart="drag(event)" id="button">Button</div>
 </div>
@@ -171,6 +305,7 @@ Publish should send HTML to backend API that deploys site.
 <div id="preview" class="preview" ondragover="allowDrop(event)" ondrop="drop(event)">
 <p>Drag elements here</p>
 </div>
+
 </div>
 
 </div>
@@ -179,10 +314,10 @@ Publish should send HTML to backend API that deploys site.
 <section id="dashboard" class="hidden">
 <h2>User Dashboard</h2>
 
-<div class="analytics-grid">
+<div class="analytics">
 <div class="stat">
 <h2 id="sitesStat">0</h2>
-<p>Sites</p>
+<p>Websites</p>
 </div>
 
 <div class="stat">
@@ -196,11 +331,10 @@ Publish should send HTML to backend API that deploys site.
 </div>
 
 <div class="stat">
-<h2 id="earningsStat">$0</h2>
+<h2>$0</h2>
 <p>Revenue</p>
 </div>
 </div>
-
 </section>
 
 <section id="admin" class="hidden">
@@ -228,39 +362,9 @@ Publish should send HTML to backend API that deploys site.
 <option>Completed</option>
 </select>
 
-<button class="btn" onclick="addCustomer()">Add</button>
+<button class="btn" onclick="addCustomer()">Add Customer</button>
 </div>
 
-</section>
-
-<section id="pricing">
-<h2>Subscriptions</h2>
-
-<div class="editor-grid">
-
-<div class="card">
-<h3>Starter</h3>
-<p>$5/month</p>
-<button class="btn" onclick="subscribe('starter')">Subscribe</button>
-</div>
-
-<div class="card">
-<h3>Pro</h3>
-<p>$15/month</p>
-<button class="btn" onclick="subscribe('pro')">Subscribe</button>
-</div>
-
-<div class="card">
-<h3>Business</h3>
-<p>$29/month</p>
-<button class="btn" onclick="subscribe('business')">Subscribe</button>
-</div>
-
-</div>
-
-<p style="font-size:12px">
-Connect subscribe() to Stripe checkout session.
-</p>
 </section>
 
 <footer>
@@ -273,30 +377,34 @@ let generatedCode="";
 let siteCount=0;
 let publishCount=0;
 let visitCount=0;
-let earnings=0;
 
-/* generate 300 templates */
-for(let i=1;i<=300;i++){
-let div=document.createElement("div");
-div.className="template";
-div.innerText="Template "+i;
-document.getElementById("templateList").appendChild(div);
+/* create templates with images */
+
+for(let i=1;i<=120;i++){
+let div=document.createElement("div")
+div.className="template"
+
+div.innerHTML=`
+<img src="https://picsum.photos/300/200?random=${i}">
+<div>Template ${i}</div>
+`
+
+document.getElementById("templateList").appendChild(div)
 }
 
 function showLogin(){
 document.getElementById("login").scrollIntoView()
 }
 
-/* LOGIN SHOULD CALL FIREBASE AUTH */
 function login(){
 let email=document.getElementById("email").value
 
-if(email === "blsalamlths@gmail.com"){
- document.getElementById("admin").classList.remove("hidden")
+if(email==="blsalamlths@gmail.com"){
+document.getElementById("admin").classList.remove("hidden")
 }
 
- document.getElementById("builder").classList.remove("hidden")
- document.getElementById("dashboard").classList.remove("hidden")
+document.getElementById("builder").classList.remove("hidden")
+document.getElementById("dashboard").classList.remove("hidden")
 }
 
 function allowDrop(e){e.preventDefault()}
@@ -307,14 +415,15 @@ e.dataTransfer.setData("text",e.target.id)
 
 function drop(e){
 e.preventDefault()
+
 let data=e.dataTransfer.getData("text")
 let html=""
 
-if(data==="text") html="<p>Sample text</p>"
-if(data==="image") html="<img src='https://via.placeholder.com/400'>"
+if(data==="text") html="<p>Example text</p>"
+if(data==="image") html="<img src='https://picsum.photos/400'>"
 if(data==="button") html="<button>Click</button>"
 
-e.target.innerHTML+=html
+ e.target.innerHTML+=html
 }
 
 function generateSite(){
@@ -324,6 +433,7 @@ document.getElementById("sitesStat").innerText=siteCount
 let title=document.getElementById("title").value
 let tagline=document.getElementById("tagline").value
 let color=document.getElementById("color").value
+let font=document.getElementById("font").value
 let content=document.getElementById("preview").innerHTML
 
 generatedCode=`<!DOCTYPE html>
@@ -331,7 +441,8 @@ generatedCode=`<!DOCTYPE html>
 <head>
 <title>${title}</title>
 <style>
-header{background:${color};color:white;padding:30px;text-align:center}
+body{font-family:${font};margin:0}
+header{background:${color};color:white;padding:40px;text-align:center}
 </style>
 </head>
 <body>
@@ -344,6 +455,33 @@ header{background:${color};color:white;padding:30px;text-align:center}
 </html>`
 }
 
+function publishSite(){
+if(!generatedCode){alert("Generate site first");return}
+
+publishCount++
+visitCount+=Math.floor(Math.random()*200)
+
+document.getElementById("publishStat").innerText=publishCount
+
+document.getElementById("visitsStat").innerText=visitCount
+
+alert("Publishing will deploy the site and create a subdomain.")
+}
+
+function addCustomer(){
+let name=document.getElementById("custName").value
+let type=document.getElementById("custType").value
+let status=document.getElementById("custStatus").value
+
+let row=`<tr><td>${name}</td><td>${type}</td><td>${status}</td></tr>`
+
+document.getElementById("customerTable").innerHTML+=row
+}
+
+</script>
+
+</body>
+</html>
 function publishSite(){
 if(!generatedCode){alert("Generate site first");return}
 
