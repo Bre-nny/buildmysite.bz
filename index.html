@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildMySite</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#0f172a;color:white}
+header{background:#020617;padding:20px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0}
+nav a{color:white;margin-left:20px;text-decoration:none}
+.hero{padding:80px 20px;text-align:center;background:linear-gradient(135deg,#1e3a8a,#9333ea)}
+.hero h2{font-size:42px;margin-bottom:10px}
+.hero p{opacity:.9}
+.btn{background:#22c55e;border:none;padding:12px 22px;border-radius:8px;color:white;font-size:16px;cursor:pointer}
+section{padding:60px 20px;max-width:1100px;margin:auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:#1e293b;padding:20px;border-radius:12px}
+input,select,textarea{width:100%;padding:10px;margin-top:8px;margin-bottom:15px;border-radius:6px;border:none}
+footer{background:#020617;padding:30px;text-align:center;margin-top:40px}
+.preview{border:1px solid #334155;padding:20px;border-radius:8px;margin-top:20px;background:white;color:black}
+</style>
+</head>
+<body>
+
+<header>
+<h1>BuildMySite</h1>
+<nav>
+<a href="#services">Services</a>
+<a href="#builder">Website Builder</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<section class="hero">
+<h2>Get Your Website Built</h2>
+<p>Need a professional website? Contact the owner and get a custom site made for you.</p>
+<button class="btn" onclick="document.getElementById('contact').scrollIntoView()">Contact Me</button>
+</section>
+
+<section id="services">
+<h2>What I Offer</h2>
+<div class="cards">
+<div class="card">
+<h3>Custom Websites</h3>
+<p>I build professional websites for businesses, creators, and personal brands.</p>
+</div>
+<div class="card">
+<h3>Modern Design</h3>
+<p>Clean layouts, modern fonts, and responsive designs that work on any device.</p>
+</div>
+<div class="card">
+<h3>Fast Delivery</h3>
+<p>Your website can be designed and ready quickly depending on complexity.</p>
+</div>
+</div>
+</section>
+
+<section id="builder">
+<h2>Simple Website Generator</h2>
+<p>Create a basic website layout instantly.</p>
+
+<label>Website Title</label>
+<input id="title" placeholder="My Website">
+
+<label>Header Color</label>
+<select id="color">
+<option value="#1e3a8a">Blue</option>
+<option value="#16a34a">Green</option>
+<option value="#dc2626">Red</option>
+<option value="#9333ea">Purple</option>
+</select>
+
+<label>Font</label>
+<select id="font">
+<option value="Arial">Arial</option>
+<option value="Georgia">Georgia</option>
+<option value="Courier New">Courier</option>
+<option value="Verdana">Verdana</option>
+</select>
+
+<button class="btn" onclick="generateSite()">Generate Website</button>
+
+<div class="preview" id="preview"></div>
+</section>
+
+<section id="contact">
+<h2>Contact the Owner</h2>
+<p>If you want a full professional website built, send a request below.</p>
+
+<form>
+<label>Name</label>
+<input placeholder="Your name">
+
+<label>Email</label>
+<input placeholder="Your email">
+
+<label>Describe the website you want</label>
+<textarea rows="5"></textarea>
+
+<button class="btn" type="submit">Send Request</button>
+</form>
+</section>
+
+<footer>
+<p>© 2026 BuildMySite - Website Creation Service</p>
+</footer>
+
+<script>
+function generateSite(){
+let title=document.getElementById('title').value||"My Website";
+let color=document.getElementById('color').value;
+let font=document.getElementById('font').value;
+
+let code=`<!DOCTYPE html>
+<html>
+<head>
+<title>${title}</title>
+<style>
+body{font-family:${font};margin:0}
+header{background:${color};color:white;padding:20px;text-align:center}
+section{padding:40px;text-align:center}
+</style>
+</head>
+<body>
+<header><h1>${title}</h1></header>
+<section>
+<h2>Welcome to my website</h2>
+<p>This website was generated using BuildMySite.</p>
+</section>
+</body>
+</html>`;
+
+document.getElementById('preview').textContent=code;
+}
+</script>
+
+</body>
+</html>
