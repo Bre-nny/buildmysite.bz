@@ -6,7 +6,14 @@ header{background:#020617;padding:18px 35px;display:flex;justify-content:space-b
 nav a{color:white;margin-left:20px;text-decoration:none;font-size:14px;transition:.3s}
 nav a:hover{color:#22c55e}
 
-section{padding:60px 20px;max-width:1200px;margin:auto}
+#login{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:70vh;
+max-width:none;
+margin:0;
+}
 
 .hero{background:linear-gradient(135deg,#2563eb,#7c3aed);text-align:center;padding:110px 20px;animation:fadeIn 1s ease}
 .hero h1{font-size:46px;margin-bottom:10px}
