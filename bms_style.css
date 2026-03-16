@@ -8,6 +8,14 @@ nav a:hover{color:#22c55e}
 
 section{padding:60px 20px;max-width:1200px;margin:auto}
 
+#login{
+max-width:none;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:70vh;
+}
+
 .hero{background:linear-gradient(135deg,#2563eb,#7c3aed);text-align:center;padding:110px 20px;animation:fadeIn 1s ease}
 .hero h1{font-size:46px;margin-bottom:10px}
 
@@ -62,15 +70,6 @@ width:105px;
 margin-right:8px;
 vertical-align:middle;
 border-radius: 12px;
-}
-
-#login{
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:70vh;
-max-width:none;
-margin:0;
 }
 
 .login-card{
