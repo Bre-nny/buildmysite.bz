@@ -64,4 +64,16 @@ vertical-align:middle;
 border-radius: 12px;
 }
 
+#login{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:60vh;
+}
+
+.login-card{
+max-width:400px;
+width:100%;
+}
+
 </style>
